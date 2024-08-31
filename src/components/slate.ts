@@ -11,7 +11,7 @@ export function generateSlate(
 
 export function handleMouseMoving(
   event: MouseEvent,
-  bounding,
+  bounding: DOMRect,
   context: CanvasRenderingContext2D,
   tool: string
 ) {
@@ -31,7 +31,7 @@ export function handleMouseMoving(
 
 export function handleMouseClicking(
   event: MouseEvent,
-  bounding,
+  bounding: DOMRect,
   context: CanvasRenderingContext2D,
   tool: string,
 
@@ -46,7 +46,7 @@ export function handleMouseClicking(
 
 function drawOnSlate(
   event: MouseEvent,
-  bounding,
+  bounding: DOMRect,
   context: CanvasRenderingContext2D
 ) {
   const x = event.clientX - bounding.left;
@@ -58,7 +58,7 @@ function drawOnSlate(
 
 export function typeOnSlate(
   event: MouseEvent,
-  bounding,
+  bounding: DOMRect,
   context: CanvasRenderingContext2D
 ) {
   const x = event.clientX - bounding.left;
@@ -71,7 +71,7 @@ export function typeOnSlate(
 
 function eraseOnSlate(
   event: MouseEvent,
-  bounding,
+  bounding: DOMRect,
   context: CanvasRenderingContext2D
 ) {
   const x = event.clientX - bounding.left;

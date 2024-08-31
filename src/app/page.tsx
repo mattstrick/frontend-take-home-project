@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import React from "react";
 import generateToolbar from "@/components/toolbar";
+import generateSlate from "@/components/slate";
 
 const CANVAS_WIDTH = 450;
 const CANVAS_HEIGHT = 350;
@@ -15,8 +16,8 @@ export default function Home() {
       if (canvas?.getContext) {
         const ctx = canvas.getContext("2d");
 
-        generateToolbar(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
-
+        const toolbarProps = generateToolbar(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+        generateSlate(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, toolbarProps.TOOLBAR_HEIGHT);
       } else {
         // Handle non-canvas support
         alert(

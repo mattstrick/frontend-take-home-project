@@ -8,4 +8,8 @@ export default function generateToolbar(context: CanvasRenderingContext2D, width
     context.fillRect(0, 75, width, 1);
 
     // add tools
+
+    return {
+        TOOLBAR_HEIGHT: 76
+    };
 }

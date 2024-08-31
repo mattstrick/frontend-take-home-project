@@ -1,14 +1,39 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import Image from "next/image";
+import styles from "./page.module.css";
+import React from "react";
+import generateToolbar from "@/components/toolbar";
+
+const CANVAS_WIDTH = 450;
+const CANVAS_HEIGHT = 350;
 
 export default function Home() {
+  React.useEffect(() => {
+    function draw() {
+      const canvas = document.getElementById("canvasTool") as HTMLCanvasElement;
+      if (canvas?.getContext) {
+        const ctx = canvas.getContext("2d");
+
+        generateToolbar(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+      } else {
+        // Handle non-canvas support
+        alert(
+          "Canvas is not supported on your browser, but is required for our tool. Please upgrade your browser or try another browser."
+        );
+      }
+    }
+
+    draw();
+  }, []);
+
   return (
     <main className={styles.main}>
-
       <div className={styles.code}>
         <p>Frontend Engineer Take Home Project</p>
       </div>
-      
+
       <div className={styles.center}>
         <Image
           className={styles.logo}
@@ -43,10 +68,16 @@ export default function Home() {
           <h2>
             Motivation <span>-&gt;</span>
           </h2>
-          <p>At Classkick, our teachers and students LOVE using our 
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial"> Canvas </a> 
-            feature to create fun and engaging content. <br></br><br></br>
-            This project emulates the type of scenarios we face at Classkick, with similar technical challenges regarding UI and real-time UX.
+          <p>
+            At Classkick, our teachers and students LOVE using our
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
+              {" "}
+              Canvas{" "}
+            </a>
+            feature to create fun and engaging content. <br></br>
+            <br></br>
+            This project emulates the type of scenarios we face at Classkick,
+            with similar technical challenges regarding UI and real-time UX.
           </p>
         </div>
 
@@ -54,10 +85,10 @@ export default function Home() {
           <h2>
             Goals <span>-&gt;</span>
           </h2>
-          <p>Your task is to create Canvas element to:<br></br><br></br>
-            - Create a `Drawing` <br></br>
-            - Create a `Textbox` <br></br>
-            - Add an `Eraser Tool`
+          <p>
+            Your task is to create Canvas element to:<br></br>
+            <br></br>- Create a `Drawing` <br></br>- Create a `Textbox`{" "}
+            <br></br>- Add an `Eraser Tool`
           </p>
         </div>
 
@@ -66,9 +97,12 @@ export default function Home() {
             Requirements <span>-&gt;</span>
           </h2>
           <p>
-            - Your app does NOT have to be hooked up to a backend and thus it does NOT have to preserve state. <br></br><br></br>
-            - It should be clear in your code and/or documentation on areas of design and technical decisions <br></br><br></br>
-            - Create components as you feel is best suited for your solution. <br></br>
+            - Your app does NOT have to be hooked up to a backend and thus it
+            does NOT have to preserve state. <br></br>
+            <br></br>- It should be clear in your code and/or documentation on
+            areas of design and technical decisions <br></br>
+            <br></br>- Create components as you feel is best suited for your
+            solution. <br></br>
           </p>
         </div>
 
@@ -77,16 +111,25 @@ export default function Home() {
             Helpful links <span>-&gt;</span>
           </h2>
           <p>
-            - <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial"> Canvas API </a><br></br><br></br>
-            - <a href='https://react.dev/learn/start-a-new-react-project#nextjs'>React/Next JS Tutorial</a> <br></br>
+            -{" "}
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
+              {" "}
+              Canvas API{" "}
+            </a>
+            <br></br>
+            <br></br>-{" "}
+            <a href="https://react.dev/learn/start-a-new-react-project#nextjs">
+              React/Next JS Tutorial
+            </a>{" "}
+            <br></br>
           </p>
         </div>
       </div>
 
-      <br></br><br></br>
+      <br></br>
+      <br></br>
       <h3>Mock &nbsp;</h3>
       <div className={styles.center}>
-        
         <Image
           src="/classkick-take-home.png"
           alt="Classkick Take Home"
@@ -96,12 +139,12 @@ export default function Home() {
         />
       </div>
 
-      <br></br><br></br>
+      <br></br>
+      <br></br>
       <h3>Tool &nbsp;</h3>
       <div className={styles.center}>
-        
-        <canvas id='canvasTool' width="450" height="350"/>
+        <canvas id="canvasTool" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
       </div>
     </main>
-  )
+  );
 }

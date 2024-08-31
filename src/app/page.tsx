@@ -1,23 +1,33 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./page.module.css";
 import React from "react";
 import generateToolbar from "@/components/toolbar";
-import generateSlate from "@/components/slate";
+import { generateSlate, handleMouseClicking, handleMouseMoving } from "@/components/slate";
 
 const CANVAS_WIDTH = 450;
 const CANVAS_HEIGHT = 350;
 
+type TOOLS = "type" | "draw" | "erase";
+
 export default function Home() {
+    const [tool, setTool] = React.useState<TOOLS>("type");
+
   React.useEffect(() => {
     function draw() {
       const canvas = document.getElementById("canvasTool") as HTMLCanvasElement;
+      
       if (canvas?.getContext) {
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas?.getContext("2d");
 
-        const toolbarProps = generateToolbar(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
-        generateSlate(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, toolbarProps.TOOLBAR_HEIGHT);
+        if (ctx) {
+            const toolbarProps = generateToolbar(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+            generateSlate(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, toolbarProps.TOOLBAR_HEIGHT);
+            canvas.addEventListener("mousemove", (event) => handleMouseMoving(event, canvas.getBoundingClientRect(), ctx, tool));
+            canvas.addEventListener('click', (event) => handleMouseClicking(event, canvas.getBoundingClientRect(), ctx, tool));
+        } else {
+            // TODO: Throw an error
+        }
       } else {
         // Handle non-canvas support
         alert(
@@ -27,125 +37,11 @@ export default function Home() {
     }
 
     draw();
-  }, []);
+  }, [tool]);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.code}>
-        <p>Frontend Engineer Take Home Project</p>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/classkick.png"
-          alt="Classkick Logo"
-          width={200}
-          height={50}
-          priority
-        />
-      </div>
-
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-      </div>
-
-      <br></br>
-
-      <div className={styles.description}>
-        <p>
-          Details of project requirements are at:&nbsp;
-          <code className={styles.code}>README.md</code>
-        </p>
-      </div>
-
-      <br></br>
-
-      <div className={styles.grid}>
-        <div className={styles.card}>
-          <h2>
-            Motivation <span>-&gt;</span>
-          </h2>
-          <p>
-            At Classkick, our teachers and students LOVE using our
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
-              {" "}
-              Canvas{" "}
-            </a>
-            feature to create fun and engaging content. <br></br>
-            <br></br>
-            This project emulates the type of scenarios we face at Classkick,
-            with similar technical challenges regarding UI and real-time UX.
-          </p>
-        </div>
-
-        <div className={styles.card}>
-          <h2>
-            Goals <span>-&gt;</span>
-          </h2>
-          <p>
-            Your task is to create Canvas element to:<br></br>
-            <br></br>- Create a `Drawing` <br></br>- Create a `Textbox`{" "}
-            <br></br>- Add an `Eraser Tool`
-          </p>
-        </div>
-
-        <div className={styles.card}>
-          <h2>
-            Requirements <span>-&gt;</span>
-          </h2>
-          <p>
-            - Your app does NOT have to be hooked up to a backend and thus it
-            does NOT have to preserve state. <br></br>
-            <br></br>- It should be clear in your code and/or documentation on
-            areas of design and technical decisions <br></br>
-            <br></br>- Create components as you feel is best suited for your
-            solution. <br></br>
-          </p>
-        </div>
-
-        <div className={styles.card}>
-          <h2>
-            Helpful links <span>-&gt;</span>
-          </h2>
-          <p>
-            -{" "}
-            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
-              {" "}
-              Canvas API{" "}
-            </a>
-            <br></br>
-            <br></br>-{" "}
-            <a href="https://react.dev/learn/start-a-new-react-project#nextjs">
-              React/Next JS Tutorial
-            </a>{" "}
-            <br></br>
-          </p>
-        </div>
-      </div>
-
-      <br></br>
-      <br></br>
-      <h3>Mock &nbsp;</h3>
-      <div className={styles.center}>
-        <Image
-          src="/classkick-take-home.png"
-          alt="Classkick Take Home"
-          width={450}
-          height={350}
-          priority
-        />
-      </div>
-
-      <br></br>
-      <br></br>
-      <h3>Tool &nbsp;</h3>
       <div className={styles.center}>
         <canvas id="canvasTool" width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
       </div>
-    </main>
   );
 }

@@ -95,6 +95,13 @@ export default function Home() {
           priority
         />
       </div>
+
+      <br></br><br></br>
+      <h3>Tool &nbsp;</h3>
+      <div className={styles.center}>
+        
+        <canvas id='canvasTool' width="450" height="350"/>
+      </div>
     </main>
   )
 }
